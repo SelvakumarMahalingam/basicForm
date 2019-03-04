@@ -1,0 +1,89 @@
+<div class="pl-20 pr-20  appOuter">
+    <div class="loader" *ngIf="showLoader">Loading...</div>
+  <div class="">
+    <div class="pl-20 pr-20 pt-20 pb-20 flex">
+      <div class="emp-title wper-90 flex align-right">
+        <div class="flex flex-row-reverse pr-15">
+          <input type="text" class="searchInput" #filter placeholder="Search" name="search" autocomplete="off">
+        </div>
+        <!-- <div class="pl-10  pr-10 pt-11"><img src="../../../../assets/images/filter.png"></div> -->
+        <div class="pl-10  pr-10"><img src="../../../../assets/images/topLine.png"></div>
+      </div>
+      <div class="btn-outer">
+        <div class="pr-15  pl-15">
+          <button class="upload-btn cursor" (click)="addEmployee('singleUpload')">
+            <img class="pr-10" src="../../../../assets/images/empPlus.png">Add Employee</button>
+        </div>
+        <!-- <div class="pr-15  pl-15">
+          <button class="upload-btn cursor" (click)="addEmployee('blukUpload')">
+            <img class="pr-10" src="../../../../assets/images/empPlus.png">Add Bulk Upload</button>
+        </div> -->
+      </div>
+    </div>
+    <table mat-table #table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            <img style="width: 27px;
+               border-radius: 50%;                 
+               object-fit: contain;"
+              class="cursor" src="../../../../assets/images/tim.png">
+          </div>
+        </td>
+      </ng-container> -->
+      <ng-container matColumnDef="empName" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+        <td mat-cell *matCellDef="let element" class="cursor outLine" routerLink="/employee-management/employee-view/{{element.userId}}"> {{element.name}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="empCode">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.mail.mail | titlecase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="groupName">
+        <th mat-header-cell *matHeaderCellDef class="wper-15"> Group Name </th>
+        <td mat-cell *matCellDef="let element" class="wper-15"> {{element.groupName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef class="wper-25"> Status </th>
+        <td mat-cell *matCellDef="let element;let rowIndex = index;" class="wper-25">
+          <div class="wper-75">
+            <mat-form-field class="userStatus">
+              <mat-select placeholder="" [(ngModel)]="element.status" name="select_{{rowIndex}}" (selectionChange)="statusChange(element)">
+                <mat-option *ngFor="let uStatus of empStatus" [value]="uStatus.name">
+                  {{uStatus.name | titlecase}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element">
+          <div [matMenuTriggerFor]="menu" class="more-icon">
+            <img class="cursor" src="../../../assets/images/more.png">
+            <mat-menu class="moreOption" #menu="matMenu">
+              <button (click)="addEmployee('singleUpload',element)" mat-menu-item>
+                <span class="moreOption">Edit</span>
+              </button>
+              <button (click)="removeEmp(element)" mat-menu-item>
+                <span class="moreOption">Delete</span>
+              </button>
+              <button routerLink="/employee-management/employee-view/{{element.userId}}" mat-menu-item>
+                <span class="moreOption">View</span>
+              </button>
+            </mat-menu>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <!-- <div class="no-results" [style.display]="dataSource.length == 0 ? '' : 'none'">
+          No results
+        </div> -->
+    </table>    
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+<div class="loader" *ngIf="showLoader">Loading...</div>
+<div class="viewOuter flex align-center" *ngIf="!editUser">
+  <div class="wmpx-614">
+    <div class="flex pt-20 pb-20">
+      <div class="wpr-20  pl-20 wper-50  flex align-middle">
+        <!-- <img  class="cursor outLine" src="../../../../assets/images/viewBack.png"> -->
+        <span class="pl-15 outLine viewBack cursor" (click)="user()">User Info</span>
+      </div>
+      <div class="flex wper-50 align-right">
+        <div class="pr-15  pl-15 flex ">
+          <!-- routerLink="/session/change-password" -->
+          <button routerLink="/session/forgot" class="companyViewEdit cursor wmpx-195 hpx-40 mr-20">
+            <img class="pr-10" src="../../../../assets/images/lock.png">Change Password
+          </button>
+          <button (click)="editUser=true;editUserDetails()" class="companyViewEdit cursor wmpx-95 hpx-40">
+            <img class="pr-10" src="../../../../assets/images/edit.png">Edit
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="flex wmpx-614 hpx-154 viewHeader align-middle">
+      <div class="clientImg ml-38">
+        <!-- onError="this.src='../../assets/image/key.png'" -->
+        <img class="wmpx-115 hpx-112" style="border-radius: 50%;object-fit: contain;" src="{{cdnUrl}}cdn/files/{{usrImage}}?authorization={{authToken}}">
+
+      </div>
+      <div class="pl-30 viewTitle">
+        {{userDetails.user?.userName?userDetails.user?.userName:'-'}}
+      </div>
+    </div>
+    <div class="clientContent pt-32 wper-100">
+      <div class="flex pt-10 pb-70 ml-38">
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Mail ID</div>
+          <div class="clientVal"> {{userDetails.user?.mail?.mail?userDetails.user?.mail?.mail:'-'}}</div>
+        </div>
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Contact Number</div>
+          <div class="clientVal">{{userDetails.user?.mobileNo?userDetails.user?.mobileNo:'-'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="viewOuter flex align-center" *ngIf="editUser">
+  <form class="example-form" name="form" autocomplete="off" (ngSubmit)="editEmp(empInfo)" #empInfo="ngForm" novalidate>
+    <div class="wmpx-614">
+      <div class="flex pt-20 pb-20">
+        <div class="wpr-20  pl-20 wper-50  flex align-middle">
+          <img (click)="editUser=false" class="cursor outLine" src="../../../../assets/images/viewBack.png">
+          <span (click)="editUser=false" class="pl-15 outLine viewBack cursor">Edit Info</span>
+        </div>
+        <div class="flex wper-50 align-right">
+          <div class="pr-15  pl-15 flex ">
+            <button (click)="editUser=false" class="companyViewEdit bgRed cursor wmpx-105 hpx-40 mr-20">
+              <img class="pr-10" src="../../../../assets/images/close.png">Cancel
+            </button>
+            <button type="submit" name="save" class="companyViewEdit cursor wmpx-95 hpx-40" [disabled]="empInfo.invalid">
+              <img class="pr-10" src="../../../../assets/images/save.png">Save
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex wmpx-614 hpx-154 viewHeader align-middle">
+        <div class="cursor ml-38 usrImage
+           " [ngStyle]="croppedImage?{'padding':'0px 0px','width': '102px','background':'none','box-shadow':'unset'}:''">
+          <div id="overlay" (click)="overLay=false;" [ngStyle]="overLay==true?{'display':'block'}:{'display':'none'}">
+            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 /  1"
+              [resizeToWidth]="128" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+              (loadImageFailed)="loadImageFailed()">
+            </image-cropper>
+          </div>
+          <div class="uploadBtn uploadCompany" style="border:none;" [ngStyle]="croppedImage?{'border': 'none','background':'none'}:''"
+            (click)="onFileClick('company');overLay=true">
+            <label title="upload file" for="file-input">
+              <img *ngIf='!croppedImage' onError="this.src='../../../../assets/images/viewUser.png'" src="{{cdnUrl}}cdn/files/{{usrImage}}?authorization={{authToken}}"
+                class="wmpx-115 hpx-112 pt-7" style="border-radius: 50%;object-fit: contain;">
+              <img class="wmpx-25 cursor " style="opacity: 0.3;
+              position: absolute;
+              left: 458px;
+              top: 258px;"
+                *ngIf='!croppedImage' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ic_camera_alt_48px.svg/2000px-Ic_camera_alt_48px.svg.png">
+            </label>
+            <img [src]="croppedImage"   [ngClass]="croppedImage?'wmpx-115 hpx-112':''" style="border-radius: 50%" />
+            <input #fileClick id="fileClick" type="file" (change)="fileChangeEvent($event)" />
+          </div>
+        </div>
+      </div>
+      <div class="clientContent pt-32 wper-100">
+        <div class="flex pt-10 ml-38">
+          <div class="wper-50">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="First Name" name="fName" [(ngModel)]="emp.fName" #fName="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class="wper-50">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Last Name" name="lName" [(ngModel)]="emp.lName" #lName="ngModel" required>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="flex pt-30  ml-38">
+          <div class="wper-50">
+            <mat-form-field class="wper-63">
+              <input matInput [matDatepicker]="dp3" placeholder="DOB" name="dob" [(ngModel)]="emp.dob" required>
+              <mat-datepicker-toggle matSuffix [for]="dp3" ></mat-datepicker-toggle>
+              <mat-datepicker #dp3 ></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="wper-32">
+            <mat-form-field class="example-full-width wper-100 ">
+              <mat-select placeholder="Gender" name="gender" [(ngModel)]="emp.gender" required>
+                <mat-option *ngFor="let gender of [{id:'1',name:'MALE'},{id:'1',name:'FEMALE'}]" [value]="gender.name">
+                  {{gender.name | titlecase }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="flex pt-30  ml-38 pb-40">
+          <div class="wper-50">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Department" name="designation" [(ngModel)]="emp.designation" #designation="ngModel"
+                required>
+            </mat-form-field>
+          </div>
+          <div class="wper-50">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Contact Number" name="contactNo" [(ngModel)]="emp.mobileNo" [OnlyNumber]="true"
+                maxlength="10" minlength="10" #mobileNo="ngModel" required>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

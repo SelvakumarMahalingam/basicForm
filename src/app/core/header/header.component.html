@@ -1,0 +1,50 @@
+<mat-toolbar class="main-header" color="primary">
+  <div class="navSliderOuter pl-8">
+
+  </div>
+
+  <div class="branding pl-9 custlogo outLine cursor" style='height: 47px;' (click)="currIndex = -1;currentUrl='client-management'">
+    <img routerLink="/client-management/client-view/{{organisationId}}" [src]='"../../../assets/images/appLog.png"'
+      onError="this.src='../../assets/image/key.png'" class="cursor outLine wmpx-157 hpx-44 br-5 ">
+  </div>
+  <div class="search-bar" fxFlex>
+    <div class="flex align-middle ">
+      <div *ngFor="let menu of menuList;let i = index" routerLink="{{menu.url}}" class="btn-links outLine" (click)="currIndex = i;currentUrl=menu.img"
+        [ngClass]="currentUrl == menu.img?'btnActiveColor':''">
+        <!-- <img class="wmpx-10 pr-7" src="../../../assets/images/{{menu.img}}{{currentUrl==menu.img && currIndex == i ?'-'+ currentUrl:''}}.png">  -->
+        <i class="{{menu.class}}" aria-hidden="true"></i>
+        <span class="pt-4 pl-5 cursor">
+          {{menu.name}}</span>
+      </div>
+    </div>
+  </div>
+  <div style="display: flex;
+  justify-content: center;
+  align-items: center;">
+    <button mat-icon-button class="ml-xs mr-11">
+      <!-- <mat-icon>person</mat-icon> -->
+      <!-- <img src="../../../assets/images/tim.png" class="userLogo"> -->
+      <img [src]="cdnUrl+'cdn/files/'+usrImage+'?authorization='+authToken"  onError="this.src='../../assets/images/tim.png'" alt=""  class="userLogo">
+      <!-- <img class="userLogo" [src]="userLogo"> -->
+    </button>
+    <!-- [routerLink]="['/userInfo']" -->
+    <mat-menu #user="matMenu" x-position="before">
+      <button mat-menu-item routerLink="/userInfo/{{userId}}" (click)="currIndex = -1;currentUrl='userInfo'">
+        User Info
+      </button>
+      <!-- <button mat-menu-item>
+        Company Info
+      </button> -->
+      <button mat-menu-item (click)="logout()">
+        Sign Out
+      </button>
+      <!-- [routerLink]="['/session/signin']" -->
+    </mat-menu>
+    <div [matMenuTriggerFor]="user" class="userName pl-5 cursor" style="color: rgba(51, 51, 51, 0.5); 
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 29.55px;">{{userDetails.user?.userName}}
+    </div>
+    <!-- <div class="userDept">Supervisor</div> -->
+  </div>
+</mat-toolbar>

@@ -1,0 +1,132 @@
+<div class="viewOuter appOuter pl-20 pr-20">
+  <div [ngClass]="superAdmin== true?'wper-100':'wmpx-614'">
+    <div class="flex pt-20 pb-20">
+      <div class="wpr-20  pl-20 wper-50  flex align-middle">
+        <img routerLink="/client-management" class="cursor outLine" src="../../../../assets/images/viewBack.png">
+        <span routerLink="/client-management" class="pl-15 outLine viewBack cursor">Company Info</span>
+      </div>
+      <div class="flex wper-50 align-right">
+        <div class="pr-15  pl-15 ">
+          <button class="companyViewEdit cursor wmpx-95 hpx-40" (click)="clientCreate('edit',clientDetails)">
+            <img class="pr-10" src="../../../../assets/images/edit.png">Edit
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="flex  hpx-154 viewHeader align-middle">
+      <div class="clientImg ml-38">
+        <img *ngIf="!clientDetails?.image" src="../../../../assets/images/cmpLogo.png">
+        <img  *ngIf="clientDetails?.image" class="wmpx-95" src="{{cdnUrl}}cdn/files/{{clientDetails?.image}}?authorization={{authToken}}" onError="this.src='../../assets/images/cmpLogo.png'">
+      </div>
+      <div class="pl-30 viewTitle">
+          {{clientDetails?.organisationName?clientDetails.organisationName:'-' | titlecase}}
+      </div>
+    </div>
+    <div class="clientContent pt-32 wper-100">
+      <div class="flex pt-10 ml-38">
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Mail ID</div>
+          <div class="clientVal">{{clientDetails?.mail.mail?clientDetails.mail.mail:'-' | titlecase}}</div>
+        </div>
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Trading Name</div>
+          <div class="clientVal">{{clientDetails?.tradingName?clientDetails.tradingName:'-' | titlecase}}</div>
+        </div>
+      </div>
+      <div class="flex pt-30  ml-38">
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Business Registration No</div>
+          <div class="clientVal">{{clientDetails?.businessId?clientDetails.businessId:'-'}}</div>
+        </div>
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Location</div>
+          <div class="clientVal">{{clientDetails?.location?.area?clientDetails?.location?.area:'-' | titlecase}}</div>
+        </div>
+      </div>
+      <div class="flex pt-30 pb-40 ml-38">
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Contact Name</div>
+          <div class="clientVal">{{clientDetails?.contactDetails.name?clientDetails?.contactDetails.name:'-'}}</div>
+        </div>
+        <div class="wper-50">
+          <div class="clientLabel pb-8">Contact Number</div>
+          <div class="clientVal">{{clientDetails?.contactDetails.mobileNo?clientDetails?.contactDetails.mobileNo:'-'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div *ngIf="showLoader" class="loader">
+     
+    </div>
+    <div class="">
+      <div class="pl-20 pr-20 pt-20 pb-20 flex">
+        <div class="wpr-20  pl-20 wper-80  flex align-middle">
+          <span class="outLine viewBack cursor">Program Details</span>
+        </div>
+        <div class="flex align-right">
+          <!-- <div class="pr-15  pl-15">
+              <button class="upload-btn cursor" (click)="clientCreate()">
+                <img class="pr-10" src="../../../../assets/images/empPlus.png">Add Company</button>
+            </div> -->
+        </div>
+      </div>
+      <table mat-table #table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="image">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.status=='pending'?{'background-color':'rgba(19, 187, 153, 0.1)'}:''">
+            <div class="pt-5">
+              <img style="width: 27px;
+                           border-radius: 50%;                 
+                           object-fit: contain;"
+                class="cursor" src="../../../../assets/images/tim.png">
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="programName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Program Name </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.status=='pending'?{'background-color':'rgba(19, 187, 153, 0.1)'}:''"> {{element.programName | titlecase}} </td>
+        </ng-container>
+        <ng-container matColumnDef="programCost">
+          <th mat-header-cell *matHeaderCellDef> Program Cost </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.status=='pending'?{'background-color':'rgba(19, 187, 153, 0.1)'}:''"> {{element.programCost | titlecase}} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalModules">
+          <th mat-header-cell *matHeaderCellDef> Total Modules </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.status=='pending'?{'background-color':'rgba(19, 187, 153, 0.1)'}:''"> {{element.totalModules }} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalLessons">
+          <th mat-header-cell *matHeaderCellDef> Total Lessons </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.status=='pending'?{'background-color':'rgba(19, 187, 153, 0.1)'}:''"> {{element.totalLesson}} </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.status=='pending'?{'background-color':'rgba(19, 187, 153, 0.1)'}:''">
+            <!-- <div>{{element.status}}</div> -->
+            <div class="flex align-baseline cursor"  [ngStyle]="element.status=='accept'?{'pointer-events':'none','opacity':'0.6'}:element.status=='reject'?{'pointer-events':'none','opacity':'0.6'}:''">
+              <div  class="wmpx-8 hpx-8 mr-10  br-20" [ngStyle]="element.status=='accept'?{'background-color':'green'}:element.status=='reject'?{'background-color':'#d01c1c'}:element.status=='PENDING'?{'background-color':'rgb(5, 201, 245)'}:''"></div>
+              <div [matMenuTriggerFor]="menu">
+                <div class="more-icon">
+                    <!-- element.status='pending' -->
+                  <mat-menu class="moreOption" #menu="matMenu">
+                    <button mat-menu-item (click)="acceptPopUp(element)">
+                      <span class="moreOption">Accept</span>
+                    </button>
+                    <button mat-menu-item>
+                      <span class="moreOption">Reject</span>
+                    </button>                    
+                  </mat-menu>
+                </div>{{element.status}}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <!-- <mat-paginator [length]="resultsLength"   [pageIndex]="0"
+        [pageSize]="10" [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+</div>

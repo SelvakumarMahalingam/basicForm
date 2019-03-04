@@ -1,0 +1,43 @@
+<div class="session mat-indigo ">
+  <div class="session-content p-1">
+    <div class="session-wrapper">
+      <mat-card class="p-0 bor-14">
+        <mat-card-content>
+          <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+            <div class="text-xs-center pb-1 loginTop">
+              <img src="../../../assets/images/appLog.png" alt="" class="pt-75 wmpx-207"/>
+              <!-- <img class="wmpx-136" src="../../../assets/images/logo with text.png" alt="" /> -->
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-around" class="pl-40 p-40 pt-20">
+              <div class="pb-1">
+                <mat-form-field style="width: 100%">
+                  <input matInput placeholder="Email" [formControl]="form.controls['email']">
+                </mat-form-field>
+                <div style="position: absolute;
+                margin-top: -17px;
+                font-size: 13px;"
+                  *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched" class="mat-text-warn">Email
+                  is required.</div>
+              </div>
+              <div class="pb-1">
+                <mat-form-field style="width: 100%">
+                  <input matInput type="password" placeholder="Password" [formControl]="form.controls['password']">
+                </mat-form-field>
+                <div style="position: absolute;
+                margin-top: -17px;
+                font-size: 13px;"
+                  *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched" class="mat-text-warn">Password
+                  is required.</div>
+              </div>
+              <div class="pb-25">
+                <a  class="forgot-link" [routerLink]="['/session/forgot']">Forgot password?</a>
+              </div>
+              <button style="background: #13bb99;color: #ffffff;" mat-raised-button color="primary" type="submit"
+                [disabled]="!form.valid" class="hpx-50">Login</button>
+            </div>            
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

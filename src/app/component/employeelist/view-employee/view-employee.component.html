@@ -1,0 +1,125 @@
+<div class="appOuter">
+  <div class="loader" *ngIf="showLoader">Loading...</div>
+  <div class="flex p-20">
+    <div class="wper-30">
+      <div class="flex align-center align-middle hpx-269 flex-col imgBox">
+        <div> <img src="../../../../assets/images/viewUser.png" class="wmpx-124 hpx-124"></div>
+        <div class="empViewName flex align-center align-middle pt-10 pb-10">
+          <!-- Aarya Stark -->
+          {{userDetails.name | titlecase}}
+        </div>
+        <div class="activeBtn flex align-center align-middle">
+          {{userDetails.status | titlecase}}
+        </div>
+      </div>
+      <div class="empView pt-20 pl-30 flex flex-col">
+        <div class="flex pt-20">
+          <div><img src="../../../../assets/images/birth.png"></div>
+          <div class="pl-15 viewContent">{{userDetails?.dob?userDetails?.dob:'-'}}</div>
+        </div>
+        <div class="flex pt-20">
+          <div><img src="../../../../assets/images/email.png"></div>
+          <div class="pl-15 viewContent">{{userDetails?.mail?.mail?userDetails.mail.mail:'-'}}</div>
+        </div>
+        <div class="flex pt-20">
+          <div><img src="../../../../assets/images/mobile.png"></div>
+          <div class="pl-15 viewContent">{{userDetails.mobileNo?userDetails.mobileNo:'-'}}</div>
+        </div>
+        <div class="flex pt-20">
+          <div><img src="../../../../assets/images/user.png"></div>
+          <div class="pl-15 viewContent">{{userDetails.gender?userDetails.gender:'-' | titlecase}}</div>
+        </div>
+        <div class="flex pt-20 pb-20">
+          <div><img src="../../../../assets/images/location.png"></div>
+          <div class="pl-15 viewContent">{{userDetails.designation?userDetails.designation:'-' | titlecase}}</div>
+        </div>
+        <!-- <div class="flex pt-20 pb-20">
+          <div><img src="../../../../assets/images/linkedin.png"></div>
+          <div class="pl-15 viewContent">aaryastark/linkedin</div>
+        </div> -->
+      </div>
+      <div style="background-color: rgba(1, 1, 1, 0.1);"></div>
+      <div class="empView pt-20 pl-30 flex flex-col">
+        <div class="flex">
+          <div><img src="../../../../assets/images/groupmember.png"></div>
+          <div class="pl-15 grpTitle">Group</div>
+        </div>
+        <div class=" pt-20  pb-20 flex flex-col">
+          <div class="flex pl-30 flex-wrap">
+            <div class="pl-10 pr-10 pt-5 pb-5 ml-6 mr-6 mt-6 mb-6 groupList cursor">Group A</div>
+            <div class="pl-10 pr-10 pt-5 pb-5 ml-6 mr-6 mt-6 mb-6 groupList cursor">Group B</div>
+            <div class="pl-10 pr-10 pt-5 pb-5 ml-6 mr-6 mt-6 mb-6 groupList cursor">Group C</div>
+            <div class="pl-10 pr-10 pt-5 pb-5 ml-6 mr-6 mt-6 mb-6 groupList cursor">Group C</div>
+            <div class="pl-10 pr-10 pt-5 pb-5 ml-6 mr-6 mt-6 mb-6 groupList cursor">Group C</div>
+            <div class="pl-10 pr-10 pt-5 pb-5 ml-6 mr-6 mt-6 mb-6 groupList cursor">Group C</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wper-70">
+      <div class="flex ">
+        <div class="wpr-20  pl-20 wper-50  flex align-middle">
+          <img routerLink="/employee-management" class="cursor outLine" src="../../../../assets/images/viewBack.png">
+          <span routerLink="/employee-management" class="pl-15 outLine viewBack cursor">Back to List</span>
+        </div>
+        <div class="flex wper-50 align-right">
+          <div class="pl-15 ">
+            <button class="viewDelBtn cursor">
+              <img class="pr-10" src="../../../../assets/images/close.png">Delete Employee</button>
+          </div>
+          <div class="pr-15  pl-15 ">
+            <button class="viewInviteBtn cursor">
+              <img class="pr-10" src="../../../../assets/images/reinvite.png">Reinvite Employee</button>
+          </div>
+        </div>
+      </div>
+      <div class="tableOuter pl-20 pt-20">
+        <table mat-table #table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <div>
+                <img style="width: 27px;
+                       border-radius: 50%;                 
+                       object-fit: contain;"
+                  class="cursor" src="../../../../assets/images/tim.png">
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="programName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> PROGRAM NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.programName}} </td>
+          </ng-container>
+          <!--         
+          <ng-container matColumnDef="coachName">
+            <th mat-header-cell *matHeaderCellDef> Coach Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.coachName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="groupName">
+            <th mat-header-cell *matHeaderCellDef> Group Linked </th>
+            <td mat-cell *matCellDef="let element"> {{element.groupName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="programSize">
+            <th mat-header-cell *matHeaderCellDef> Program Size </th>
+            <td mat-cell *matCellDef="let element"> {{element.programSize}} </td>
+          </ng-container> -->
+          <ng-container matColumnDef="coachName">
+            <th mat-header-cell *matHeaderCellDef>Module status </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalModules}} </td>
+          </ng-container>
+          <ng-container matColumnDef="programSize">
+            <th mat-header-cell *matHeaderCellDef>Lesson status </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalLesson}} </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,159 @@
+// Font size helpers
+@for $size from 1 through 150 {
+    .fs-#{$size * 1} {
+      font-size: #{$size * 1}px;
+    }
+  }
+  
+  // Font weight helpers
+  @for $weight from 1 through 9 {
+    .fw-#{$weight * 100} {
+      font-weight: #{$weight * 100};
+    }
+  }
+  
+  //Border-bottom helpers
+  @for $borderBottom from 1 through 50 {
+    .bb-#{$borderBottom * 1} {
+      border-bottom: #{$borderBottom * 1}px solid #dadada;
+    }
+  }
+  //Border-radius helpers
+  @for $borderBottom from 1 through 100 {
+    .br-#{$borderBottom * 1} {
+      border-radius: #{$borderBottom * 1}px;
+    }
+  }
+  
+  
+  // Line height helpers
+  @for $lineHeight from 1 through 150 {
+    .lh-#{$lineHeight * 1} {
+      line-height: #{$lineHeight * 1}px;
+    }
+  }
+  
+  //width in pixel
+  
+  @for $width from 1 through 1000{
+    .wpx-#{$width * 1}{
+      width: #{$width * 1}px;
+    }
+  }
+  //height in pixel
+  
+  @for $ht from 1 through 1000{
+    .hpx-#{$ht * 1}{
+      height: #{$ht * 1}px !important;
+    }
+  }
+
+  $percent:'%';
+  
+  //height in percent
+  
+  @for $heightPer from 1 through 100{
+    .hper-#{$heightPer * 1}{
+      height: #{$heightPer * 1}#{$percent};
+    }
+  }
+  
+  //width in percentag
+  @for $widthPer from 1 through 100{
+    .wper-#{$widthPer * 1}{
+      width: #{$widthPer * 1}#{$percent};
+    }
+  }
+  
+  //opacity
+    @for $opSize from 0 through 100{
+      .op-#{$opSize}{
+        opacity: $opSize/100;
+      }
+    }
+  
+  
+  // Padding helpers
+  @for $i from 1 through 150 {
+  
+    .padding-#{$i * 1}, .p-#{$i * 1},.pd-#{$i * 1} {
+      padding: #{($i * 1) + 'px'};
+    }
+  
+    .padding-top-#{$i * 1}, .pt-#{$i * 1} {
+      padding-top: #{($i * 1) + 'px'};
+    }
+  
+    .padding-right-#{$i * 1}, .pr-#{$i * 1} {
+      padding-right: #{($i * 1) + 'px'};
+    }
+  
+    .padding-bottom-#{$i * 1}, .pb-#{$i * 1} {
+      padding-bottom: #{($i * 1) + 'px'};
+    }
+  
+    .padding-left-#{$i * 1}, .pl-#{$i * 1} {
+      padding-left: #{($i * 1) + 'px'};
+    }
+  
+    .padding-horizontal-#{$i * 1}, .ph-#{$i * 1} {
+      padding-left: #{($i * 1) + 'px'};
+      padding-right: #{($i * 1) + 'px'};
+    }
+  
+    .padding-vertical-#{$i * 1}, .pv-#{$i * 1} {
+      padding-top: #{($i * 1) + 'px'};
+      padding-bottom: #{($i * 1) + 'px'};
+    }
+  }
+  
+  //margin helpers
+  
+  
+  @for $i from 1 through 150 {
+  
+    .margin-#{$i * 1}, .m-#{$i * 1} {
+      margin: #{($i * 1) + 'px'};
+    }
+  
+    .margin-top-#{$i * 1}, .mt-#{$i * 1} {
+      margin-top: #{($i * 1) + 'px !important'};
+    }
+  
+    .margin-right-#{$i * 1}, .mr-#{$i * 1} {
+      margin-right: #{($i * 1) + 'px'};
+    }
+  
+    .margin-bottom-#{$i * 1}, .mb-#{$i * 1} {
+      margin-bottom: #{($i * 1) + 'px'};
+    }
+  
+    .margin-left-#{$i * 1}, .ml-#{$i * 1} {
+      margin-left: #{($i * 1) + 'px'};
+    }
+  
+    .margin-horizontal-#{$i * 1}, .mh-#{$i * 1} {
+      margin-left: #{($i * 1) + 'px'};
+      margin-right: #{($i * 1) + 'px'};
+    }
+  
+    .margin-vertical-#{$i * 1}, .mv-#{$i * 1} {
+      margin-top: #{($i * 1) + 'px'};
+      margin-bottom: #{($i * 1) + 'px'};
+    }
+  }
+
+  //position relative
+
+  .posRelative{
+    position: relative;
+  }
+
+  //max and min width
+  @for $width from 1 through 1000{
+    .wmpx-#{$width * 1}{
+      width: #{$width * 1}px;
+      min-width: #{$width * 1}px;
+      max-width: #{$width * 1}px;    
+    }
+  }

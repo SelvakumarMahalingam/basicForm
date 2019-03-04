@@ -1,0 +1,24 @@
+:host /deep/ .mat-paginator {
+  background: none;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+:host /deep/ .mat-cell {
+  color: rgba(51, 51, 51, 0.7);
+  // font-family: Montserrat;
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.textCaptial {
+  text-transform: capitalize;
+}

@@ -1,0 +1,533 @@
+<div class="viewOuter pl-20 pr-20 wmpx-905 mpx-0 appOuter appOverflow">
+  <div *ngIf="showLoader" class="loader">
+  </div>
+  <!-- <div> -->
+  <vg-player class="mt-20" style="display: none;">
+    <video [vgMedia]="media" #media id="singleVideo" preload="auto" controls class="wper-100 hpx-400">
+      <!-- <source src="../../../../assets/video/videoplayback.mp4" type="video/mp4"> -->
+      <!-- <source src="https://gcs-vimeo.akamaized.net/exp=1550496683~acl=%2A%2F1083853770.mp4%2A~hmac=79a02955fd331069ac8b505a7475888944e8e3d6512d1df30294d50c4efc47b2/vimeo-prod-skyfire-std-us/01/2404/11/287020954/1083853770.mp4"
+        type="video/mp4"> -->
+      <source src="{{videoURL}}" type="video/mp4">
+    </video>
+  </vg-player>
+  <form class="example-form" name="form" autocomplete="off" (ngSubmit)="addProgram(pgmInfo)" #pgmInfo="ngForm"
+    novalidate>
+    <div class="flex pt-20 pb-20">
+      <div class="wpr-20  pl-20 wper-50  flex align-middle">
+        <img routerLink="/program-management" class="cursor outLine" src="../../../../assets/images/viewBack.png">
+        <span routerLink="/program-management" class="pl-15 outLine viewBack cursor">Add Program</span>
+      </div>
+      <div class="flex wper-50 align-right">
+        <div class="pr-15  pl-15 flex ">
+          <!-- (click)="cancel()" -->
+          <button class="companyViewEdit bgRed cursor wmpx-105 hpx-40">
+            <img class="pr-10" src="../../../../assets/images/close.png">Cancel
+          </button>
+          <!-- [disabled]="pgmInfo.invalid" -->
+          <button type="submit" class="companyViewEdit ml-20 cursor wmpx-105 hpx-40">
+            <img class="pr-10" src="../../../../assets/images/save.png">Save
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="clientContent pt-25 pb-25 wper-100 ">
+      <div class="flex  ml-38">
+        <div class="wper-20 pr-30">
+          <mat-form-field class="wper-100 example-full-width pt-25">
+            <input matInput placeholder="Program Name" name="programName" [(ngModel)]="pgm.programName" #programName="ngModel"
+              required>
+          </mat-form-field>
+        </div>
+        <div class="wper-20 pr-30">
+          <mat-form-field class="wper-100 example-full-width pt-25">
+            <input matInput placeholder="Program Url" name="programUrl" [(ngModel)]="pgm.programUrl" #programUrl="ngModel"
+              required>
+          </mat-form-field>
+        </div>
+        <div class="wper-20 pr-30">
+          <mat-form-field class="wper-100 example-full-width pt-25">
+            <input matInput placeholder="Description" name="description" [(ngModel)]="pgm.description" #description="ngModel"
+              required>
+          </mat-form-field>
+        </div>
+        <div class="wper-30 pr-30">
+          <!-- <div class="pb-10 pgmContent">Add Image</div>
+          <div class="wmpx-80 hpx-60 pgmBox flex align-middle  align-center">
+            <div><img src="../../../../assets/images/pgm-camera.png"></div>
+          </div> -->
+          <div class="cursor hpx-115" [ngStyle]="companyImg?{'padding':'0px 0px','width': '102px','background':'#ffffff'}:''">
+            <div id="overlay" [ngStyle]="overLay==true?{'display':'block'}:{'display':'none'}">
+              <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+                [resizeToWidth]="128" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                (loadImageFailed)="loadImageFailed()">
+              </image-cropper>
+              <button type="button" style="
+                 position: absolute;
+                 bottom: 0;
+                 right: 0;"
+                name="done" (click)="addImage()">Done</button>
+            </div>
+            <div class="uploadBtn uploadCompany" [ngStyle]="croppedImage ?{'border': 'none','background':'#ffffff'}:''"
+              (click)="onFileClick('company');overLay=true">
+              <label title="upload file" for="file-input">
+                <!-- <img class="wmpx-25 cursor" style="opacity: 0.3" *ngIf='!croppedImage'  src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ic_camera_alt_48px.svg/2000px-Ic_camera_alt_48px.svg.png">
+                  <div *ngIf='!croppedImage' class="pt-21 cursor clientImgPlaceholder" >Company
+                    Logo</div> -->
+                <div class="pb-10 pgmContent" *ngIf='!croppedImage'>Add Image</div>
+                <div class="wmpx-80 hpx-60 pgmBox flex align-middle  align-center" *ngIf='!croppedImage'>
+                  <div><img src="../../../../assets/images/pgm-camera.png"></div>
+                </div>
+              </label>
+              <img [src]="croppedImage" [ngStyle]="croppedImage?{'padding-left':'0px'}:''" />
+              <input #fileClick id="fileClick" type="file" name="image" [(ngModel)]="pgm.image" (change)="fileChangeEvent($event)" />
+            </div>
+          </div>
+        </div>
+        <div class="wper-30 pr-30">
+          <div class="pb-10 pgmContent">Cover Image</div>
+          <div class="wmpx-80 hpx-60 pgmBox flex align-middle  align-center">
+            <div><img src="../../../../assets/images/pgm-camera.png"></div>
+          </div>
+          <!-- <div class="cursor hpx-146" [ngStyle]="companyImg?{'padding':'0px 0px','width': '102px','background':'#ffffff'}:''">
+              <div id="overlay" [ngStyle]="overLay==true?{'display':'block'}:{'display':'none'}">
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="16 / 9"
+                  [resizeToWidth]="128" format="png" (imageCropped)="coverImageCropped($event)" (imageLoaded)="imageLoaded()"
+                  (loadImageFailed)="loadImageFailed()">
+                </image-cropper>
+                <button type="button" style="
+                   position: absolute;
+                   bottom: 0;
+                   right: 0;"
+                  name="done" (click)="coverImage()">Done</button>
+              </div>
+              <div class="uploadBtn uploadCompany" [ngStyle]="coverImg ?{'border': 'none','background':'#ffffff'}:''"
+                (click)="onFileClick('company');overLay=true">
+                <label title="upload file" for="file-input">
+                  <div class="pb-10 pgmContent">Cover Image</div>
+            <div class="wmpx-80 hpx-60 pgmBox flex align-middle  align-center">
+            <div><img src="../../../../assets/images/pgm-camera.png"></div>
+            </div>
+                </label>
+                <img [src]="coverImg" [ngStyle]="coverImg?{'padding-left':'0px'}:''" />
+                <input #fileClick id="fileClick" type="file" name="image" [(ngModel)]="pgm.image" (change)="fileChangeEvent($event)" />
+              </div>
+            </div> -->
+        </div>
+      </div>
+      <div class="flex  ml-38">
+        <!-- <div class="wper-20 pr-30">
+          <mat-form-field class="wper-100 example-full-width pt-25">
+            <input matInput placeholder="Description" name="description" [(ngModel)]="pgm.description" #description="ngModel"
+              required>
+          </mat-form-field>
+        </div> -->
+        <div class="wper-20 pr-30 pt-25 pb-13">
+          <div class="pb-8 inputLabel op-08">Public Program</div>
+          <mat-radio-group class="flex" name="publicProgram" [(ngModel)]="pgm.publicProgram" #programGroup="matRadioGroup">
+            <mat-radio-button class="pr-8 clientStatus" value="true" [checked]="pgm.publicProgram  === 'true'">Yes</mat-radio-button>
+            <mat-radio-button class="pr-8 clientStatus" value="false" [checked]="pgm.publicProgram  === 'false'">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="wper-20 pr-30 pt-25 pb-13">
+          <div class="pb-8 inputLabel op-08">Program Cost</div>
+          <mat-radio-group class="flex" name="status" [(ngModel)]="pgm.iscost" #radioGroup="matRadioGroup">
+            <mat-radio-button class="pr-8 clientStatus" value="isCost" [checked]="pgm.isCost  === 'isCost'">Yes</mat-radio-button>
+            <mat-radio-button class="pr-8 clientStatus" value="isFree" [checked]="pgm.isCost  === 'isFree'">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="wper-20 pr-30" *ngIf="pgm.iscost  === 'isCost'">
+          <mat-form-field class="wper-100 example-full-width pt-25">
+            <input matInput placeholder="Cost" name="cost" [(ngModel)]="pgm.cost" #cost="ngModel" [OnlyNumber]='true'
+              required>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="flex  ml-38 wper-100 flex-wrap pt-20">
+        <div class="atTitle flex wper-97">
+          <div class="wper-89 op-08">Attachments</div>
+          <div class="pl-45">
+            <img class="op-05 cursor" src="../../../../assets/images/plus.png" (click)="addAttachment()">
+          </div>
+        </div>
+        <div class="flex wmpx-908 flex-wrap" *ngFor="let attach of attachLists;let i = index">
+          <div class="wper-20 pr-30">
+            <mat-form-field class="example-full-width pt-25">
+              <input matInput placeholder="Title" [(ngModel)]="attach.title" name="attach.title_{{i}}" #title="ngModel"
+                required>
+            </mat-form-field>
+          </div>
+          <div class="wper-20 pr-30">
+            <mat-form-field class="example-full-width pt-25">
+              <input matInput placeholder="Description" [(ngModel)]="attach.attachDescription" name="attach.attachDescription_{{i}}"
+                #attachDescription="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class="wper-20 pr-7">
+            <mat-form-field class="example-full-width pt-25">
+              <input matInput placeholder="FileId" [(ngModel)]="attach.fileId" name="attach.fileId_{{i}}" #fileId="ngModel"
+                required>
+            </mat-form-field>
+          </div>
+          <div class="wper-22 pt-49">
+            <div class="">
+              <div title="Drag and Drop" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+                [uploader]="uploader" (onFileDrop)="onFileSelected($event)" class="well my-drop-zone">
+                <div class="uploadBtn">
+                  <label title="upload file" for="file-input">
+                    <i class="fa fa-paperclip pr-13 fs-21 op-06" aria-hidden="true"></i>
+                    <span class="pgmContent">Attachments</span>
+                  </label>
+                  <input id="file-input" accept=".pdf" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)"
+                    type="file" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="wper-5 mt-53 pl-11">
+            <img class="op-09 cursor" src="../../../../assets/images/delete.png" (click)="removeAttachment(i)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pb-30">
+      <div class="">
+        <div class="pl-20 pr-20 pt-20 pb-20 flex">
+          <div class="wpr-20  wper-80  flex align-middle">
+            <button type="button" class="addModule cursor" (click)="addModules()">
+              <img class="pr-10" src="../../../../assets/images/empPlus.png">
+              Add Modules
+            </button>
+          </div>
+          <div class="flex align-right">
+          </div>
+        </div>
+        <div class="clientContent  wper-100 mb-20" *ngFor="let module of modulesLists;let i = index">
+          <div class="hpx-55 flex align-middle pl-38 bbl-1">
+            <div class="moduleName wper-80">
+              Modules {{i+1}}
+            </div>
+            <div class="flex align-right  wper-20 pr-20">
+              <img class="cursor" src="../../../../assets/images/delete.png" (click)="deleteModule(i)">
+            </div>
+          </div>
+          <div class="wper-100 bbl-1">
+            <div class="flex pl-38">
+              <div class="flex align-middle align-center">
+                <mat-form-field class="wper-100 example-full-width pr-20 ">
+                  <input matInput placeholder="Module Name" name="moduleName_{{i}}" [(ngModel)]="module.moduleName"
+                    #moduleName="ngModel" required>
+                </mat-form-field>
+              </div>
+              <div class="flex align-middle align-center">
+                <mat-form-field class="wper-100 example-full-width pr-20 ">
+                  <input matInput placeholder="Module Number" name="moduleNo_{{i}}" [(ngModel)]="module.moduleNo"
+                    #moduleNo="ngModel" required>
+                </mat-form-field>
+              </div>
+              <div class="flex align-middle align-center">
+                <mat-form-field class="wper-100 example-full-width ">
+                  <input matInput placeholder="Description" name="moduleDescription_{{i}}" [(ngModel)]="module.moduleDescription"
+                    #moduleDescription="ngModel" required>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="wper-100">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="moduleName">
+                    Video
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="pt-20">
+                  <div *ngFor="let video of videoLists;let i = index">
+                    <div class="pgmContent">Video {{i+1}}</div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Number" name="lessonNo_{{i}}" [(ngModel)]="video.lessonNo"
+                            #lessonNo="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width ">
+                          <input matInput placeholder="Title" name="lessonName_{{i}}" [(ngModel)]="video.lessonName"
+                            #lessonName="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="ml-40">
+                        <div class="pb-10 pgmContent ">Add Video</div>
+                        <div class="wmpx-80 hpx-60 pgmBox flex align-middle align-center">
+                          <div>
+                            <img src="../../../../assets/images/pgm-video.png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <mat-form-field class="wper-100 example-full-width">
+                        <input matInput placeholder="Description" name="description_{{i}}" [(ngModel)]="video.description"
+                          #description="ngModel" required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="addVideo">
+                    <div class="flex">
+                      <button type="button" class="wmpx-100 addModule cursor" (click)="addvideo()">
+                        <img class="pr-10" src="../../../../assets/images/empPlus.png">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="moduleName">
+                    Exercise
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="pt-20">
+                  <div *ngFor="let exercise of exerciseLists;let i = index">
+                    <div class="pgmContent">Exercise {{i+1}}</div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Number" name="lessonNo_{{i}}" [(ngModel)]="exercise.lessonNo"
+                            #lessonNo="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center">
+                        <mat-form-field title="lessonName" class="wper-100 example-full-width ">
+                          <input matInput placeholder="Title" name="lessonName_{{i}}" [(ngModel)]="exercise.lessonName"
+                            #lessonName="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <mat-form-field class="wper-100 example-full-width">
+                        <input matInput placeholder="Description" name="description_{{i}}" [(ngModel)]="exercise.description"
+                          #description="ngModel" required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="addVideo">
+                    <div class="flex">
+                      <button type="button" class="wmpx-100 addModule cursor" (click)="addExercise()">
+                        <img class="pr-10" src="../../../../assets/images/empPlus.png">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="moduleName">
+                    Power Card
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="pt-20">
+                  <div *ngFor="let video of videoLists;let i = index">
+                    <div class="pgmContent">Power card {{i+1}}</div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20 ">
+                          <input matInput placeholder="Number" name="lessonNo_{{i}}" [(ngModel)]="pgm.lessonNo"
+                            #lessonNo="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20 ">
+                          <input matInput placeholder="Title" name="lessonName_{{i}}" [(ngModel)]="pgm.lessonName"
+                            #lessonName="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width ">
+                          <input matInput placeholder="Lesson Subtype" name="lessonSubType_{{i}}" [(ngModel)]="pgm.lessonSubType"
+                            #subtype="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="ml-40">
+                        <div class="pb-10 pgmContent">Add Image</div>
+                        <div class="wmpx-80 hpx-60 pgmBox flex align-middle  align-center">
+                          <div><img src="../../../../assets/images/pgm-camera.png"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20 ">
+                          <input matInput placeholder="MaxCheck In Count" name="maxCheckInCount_{{i}}" [(ngModel)]="pgm.maxCheckInCount"
+                            #maxCheckInCount="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <mat-form-field class="wper-100 example-full-width">
+                        <input matInput placeholder="Description" name="description_{{i}}" [(ngModel)]="pgm.description"
+                          #description="ngModel" required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="addVideo">
+                    <div class="flex">
+                      <button class="wmpx-100 addModule cursor">
+                        <img class="pr-10" src="../../../../assets/images/empPlus.png">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="moduleName">
+                    Habit Card
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="pt-20">
+                  <div *ngFor="let habit of videoLists;let i = index">
+                    <div class="pgmContent">Habit card {{i+1}}</div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20 ">
+                          <input matInput placeholder="Number" name="lessonNo_{{i}}" [(ngModel)]="habit.lessonNo"
+                            #lessonNo="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center pr-20">
+                        <mat-form-field class="wper-100 example-full-width ">
+                          <input matInput placeholder="Title" name="lessonName_{{i}}" [(ngModel)]="habit.lessonName"
+                            #lessonName="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width">
+                          <input matInput placeholder="MaxCheck In Count" name="maxCheckInCount_{{i}}" [(ngModel)]="habit.maxCheckInCount"
+                            #maxCheckInCount="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <mat-form-field class="wper-100 example-full-width">
+                        <input matInput placeholder="Description" name="description_{{i}}" [(ngModel)]="habit.description"
+                          #description="ngModel" required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="addVideo">
+                    <div class="flex">
+                      <button class="wmpx-100 addModule cursor">
+                        <img class="pr-10" src="../../../../assets/images/empPlus.png">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="moduleName">
+                    Task
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="pt-20">
+                  <div *ngFor="let video of videoLists;let i = index">
+                    <div class="pgmContent">Task {{i+1}}</div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center wper-33">
+                        <mat-form-field title="Lesson Number" class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Lesson no" name="TaskNumber" [(ngModel)]="pgm.TaskNumber"
+                            #TaskNumber="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center wper-33">
+                        <mat-form-field title="Lesson Title" class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Title" name="TaskTitle" [(ngModel)]="pgm.TaskTitle" #TaskTitle="ngModel"
+                            required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center wper-34">
+                        <mat-form-field class="wper-100 example-full-width">
+                          <input matInput placeholder="MaxCheck In Count" name="TaskMaxCount" [(ngModel)]="pgm.TaskMaxCount"
+                            #TaskMaxCount="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center wper-33">
+                        <mat-form-field class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Check in Task" name="checkInTask" [(ngModel)]="pgm.checkInTask"
+                            #checkInTask="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center wper-33 ">
+                        <mat-form-field class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Description" name="taskDescription" [(ngModel)]="pgm.taskDescription"
+                            #taskDescription="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="addVideo">
+                    <div class="flex">
+                      <button class="wmpx-100 addModule cursor">
+                        <img class="pr-10" src="../../../../assets/images/empPlus.png">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="moduleName">
+                    Image Text
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let habit of videoLists;let i = index">
+                  <div class="pt-20">
+                    <div class="pgmContent">Image Text 1</div>
+                    <div class="flex">
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Image Name" name="ImageName" [(ngModel)]="pgm.ImageName"
+                            #ImageName="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex align-middle align-center">
+                        <mat-form-field class="wper-100 example-full-width pr-20">
+                          <input matInput placeholder="Number" name="imageNumber" [(ngModel)]="pgm.imageNumber"
+                            #imageNumber="ngModel" required>
+                        </mat-form-field>
+                      </div>
+                      <div class="ml-40">
+                        <div class="pb-10 pgmContent">Add Image</div>
+                        <div class="wmpx-80 hpx-60 pgmBox flex align-middle  align-center">
+                          <div><img src="../../../../assets/images/pgm-camera.png"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <mat-form-field class="wper-100 example-full-width">
+                        <input matInput placeholder="Description" name="imageDescription" [(ngModel)]="pgm.imageDescription"
+                          #imageDescription="ngModel" required>
+                      </mat-form-field>
+                    </div>
+                    <div class="flex">
+                      <button class="wmpx-100 addModule cursor">
+                        <img class="pr-10" src="../../../../assets/images/empPlus.png">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

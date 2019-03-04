@@ -1,0 +1,90 @@
+<div class="pl-20 pr-20  appOuter">
+  <div *ngIf="showLoader" class="loader">
+    <!-- *ngIf="isLoadingResults" -->
+    <!-- <mat-spinner *ngIf="isLoadingResults"></mat-spinner> -->
+    <!-- <img src="https://www.microsoft.com/en-au/microsoftfeedback/images/big-loading-gif.gif"> -->
+  </div>
+  <div class="">
+    <div class="pl-20 pr-20 pt-20 pb-20 flex">
+      <div class="emp-title wper-86 flex align-right">
+        <div class="flex flex-row-reverse pr-15">
+          <input type="text" class="searchInput" placeholder="Search" #filter name="search" autocomplete="off">
+        </div>
+        <div class="pl-10  pr-10"><img src="../../../../assets/images/topLine.png"></div>
+      </div>
+      <div class="flex align-right">
+        <div class="pr-15  pl-15">
+          <button class="upload-btn cursor" routerLink="/program-management/program-create">
+            <img class="pr-10" src="../../../../assets/images/empPlus.png">Add Program</button>
+        </div>
+      </div>
+    </div>
+    <table mat-table #table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="wmpx-50">
+          <div class="pt-5">
+            <img style="width: 27px;
+                             border-radius: 50%;                 
+                             object-fit: contain;"
+              class="cursor" src="../../../../assets/images/tim.png">
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="ProgramName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Program Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.programName | titlecase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="ProgramCost">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Program Cost </th>
+        <td mat-cell *matCellDef="let element"> {{element.programcost }} </td>
+      </ng-container>
+      <ng-container matColumnDef="modules">
+        <th mat-header-cell *matHeaderCellDef> modules </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalModules}} </td>
+      </ng-container>
+      <ng-container matColumnDef="lesson">
+        <th mat-header-cell *matHeaderCellDef> Lesson </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalLesson }} </td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="ProgramSize">
+        <th mat-header-cell *matHeaderCellDef> Program Size </th>
+        <td mat-cell *matCellDef="let element"> {{element.ProgramSize | titlecase}} </td>
+      </ng-container> -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status | titlecase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element">
+          <div [matMenuTriggerFor]="menu" class="more-icon">
+            <img class="cursor" src="../../../assets/images/more.png">
+            <mat-menu class="moreOption" #menu="matMenu">
+              <!-- routerLink="/client-management/client-create"  -->
+              <button mat-menu-item>
+                <span class="moreOption">Edit</span>
+              </button>
+              <button (click)="removeClient(element)" mat-menu-item>
+                <span class="moreOption">Delete</span>
+              </button>
+              <!-- routerLink="/client-management/client-view" -->
+              <button mat-menu-item>
+                <span class="moreOption">View</span>
+              </button>
+              <!-- buyProgram(element); -->
+              <button mat-menu-item (click)="buyPopUp(element)">
+                <span class="moreOption">Buy Program</span>
+              </button>
+            </mat-menu>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <!-- <mat-paginator [length]="resultsLength"   [pageIndex]="0"
+    [pageSize]="10" [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  </div>
+</div>

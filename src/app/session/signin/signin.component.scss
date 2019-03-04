@@ -1,0 +1,20 @@
+.mat-card:not([class*=mat-elevation-z]) {
+  // height: calc(100vh - 114px);
+  height: 550px;
+}
+
+.loginTop {
+  height: 180px;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.13);
+}
+
+:host /deep/ .p-0 {
+  padding: 0px !important;
+}
+
+.bor-14 {
+  border-radius: 14px;
+}
+.forgot-link {
+  font-family: Roboto;
+}

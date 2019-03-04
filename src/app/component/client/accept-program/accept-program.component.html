@@ -1,0 +1,22 @@
+<div mat-dialog-content class="">
+    <h2 class="buyHead">Program Cost</h2>    
+  </div>
+  <form class="example-form pb-20" name="form" autocomplete="off"  (ngSubmit)="costInfo.form.valid && saveProgram(costInfo)"
+    #costInfo="ngForm" novalidate>
+  <div class="pt-10 pb-10">    
+    <div class="pr-40 wper-35">
+      <mat-form-field class="example-full-width">
+          <mat-icon matPrefix> 
+              $
+           </mat-icon>
+        <input matInput placeholder="Program Cost" name="cost" [(ngModel)]="program.cost" [OnlyNumber]='true' #cost="ngModel" 
+          required>
+      </mat-form-field>
+    </div>  
+  </div>
+  <div mat-dialog-actions class="box-btns flex align-right pt-15">
+    <button class="noClick wmpx-90 hpx-35 mr-20 cursor"  mat-button (click)="dialogRef.close()" cdkFocusInitial>No</button>
+    <button  type="submit"  name="save" class="yesClick wmpx-90 hpx-35 cursor" [disabled]="costInfo.invalid" mat-button cdkFocusInitial>Yes</button>
+  </div>
+</form>
+  

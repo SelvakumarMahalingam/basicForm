@@ -1,0 +1,83 @@
+<div class="">
+  <div class="pl-20 pb-10 flex" style="align-items: baseline;">
+    <div class="empAddTitle pt-30 wper-50">Employee List</div>
+    <div class="cursor wper-50 flex flex-row-reverse pr-20 close"><span (click)="dialogRef.close()"><i class="fa fa-times"
+          aria-hidden="true"></i></span></div>
+  </div>
+  <div class="">
+    <table mat-table #table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> User Name </th>
+        <td mat-cell *matCellDef="let element;let i = index;"> <span [ngStyle]="curr== i ?{'display':'none'}:''">{{element.userName}}
+          </span>
+          <div class="relative">
+            <input type="text" name="userName" *ngIf="curr == i" [(ngModel)]="element.userName" class="blukInput">
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="employeename">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+        <td mat-cell *matCellDef="let element ;let i = index;"> <span [ngStyle]="curr== i ?{'display':'none'}:''">
+            {{element.name}}
+          </span>
+          <div class="relative">
+            <input type="text" name="name" *ngIf="curr == i" [(ngModel)]="element.name" class="blukInput">
+          </div>
+        </td>
+      </ng-container>
+      <!-- Weight Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element;let i = index;" style="text-transform: lowercase;">
+          <span [ngStyle]="curr== i ?{'display':'none'}:''">{{element.email}}</span>
+          <div class="relative">
+            <input type="text" name="email" *ngIf="curr == i" [(ngModel)]="element.email" class="blukInput">
+          </div>
+        </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="designation">
+        <th mat-header-cell *matHeaderCellDef> Department</th>
+        <td mat-cell *matCellDef="let element;let i = index;">
+          <span [ngStyle]="curr== i ?{'display':'none'}:''">
+            {{element.designation}}
+          </span>
+          <div class="relative">
+            <input type="text" name="designation" *ngIf="curr == i" [(ngModel)]="element.designation" class="blukInput">
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element ;let i = index;">
+          <div [matMenuTriggerFor]="menu" class="more-icon" [ngStyle]="curr== i ?{'display':'none'}:''">
+            <img class="cursor" src="../../../assets/images/more.png">
+            <mat-menu class="moreOption" #menu="matMenu">
+              <button (click)="curr=i" mat-menu-item>
+                <span class="moreOption">Edit</span>
+              </button>
+              <button (click)="removeEmp(i)" mat-menu-item>
+                <span class="moreOption">Delete</span>
+              </button>
+            </mat-menu>
+          </div>
+          <div *ngIf="curr == i" class="relative">
+            <i (click)="curr = -1" class="fa fa-save" style="font-size:18px;color: #0e846c;margin-left: -6px;"></i>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+    </table>
+    <!-- <mat-paginator class="pageMar" #paginator
+    [length]="dataSource.filteredData.length"
+    [pageIndex]="0"
+    [pageSize]="10" [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
+    <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
+    <div class="flex  borderTop mt-10">
+      <div class="wper-50 flex  cursor align-center align-middle borderLeft hpx-67 cancelBtn" (click)="dialogRef.close()">Cancel</div>
+      <div class="wper-50 flex  cursor align-center align-middle hpx-67 cancelBtn" (click)="saveEmployee()">Add
+        Employees</div>
+    </div>
+  </div>
+</div>

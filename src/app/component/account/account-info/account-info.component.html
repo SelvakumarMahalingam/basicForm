@@ -1,0 +1,202 @@
+<div class="outer" >
+  <!-- || count >= i  -->
+  <div class="flex wper-100 align-middle flex-wrap align-center pt-10 pb-20">
+    <div class="flex align-middle align-center" *ngFor="let list of ['1','2','3'];let i = index">
+      <div (click)="curr=i;stepOneCheck();stepTwoCheck()" class="stepList" [ngStyle]="curr == i || companyForm == true && i == 0 || adminForm == true  && i == 1 ?{'background':'#454D51','color':'#ffffff'}:{'background':'#c9c9c9'} 
+      ">{{list}}</div>
+      <div *ngIf="i!=2">
+        <img src="../../assets/images/line.png" style="display: block;
+        max-width: 100%;
+        height: auto;">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="curr==2" class="cursor addPlus" (click)="addAdmin()">+</div>
+  <div class="head">
+    <div (click)="curr=i;count=curr" [ngStyle]="curr==2? {'border-bottom-left-radius': 'unset',
+      'border-top-left-radius': 'unset'}:curr==0?{'border-bottom-right-radius': 'unset',
+      'border-top-right-radius': 'unset'}:curr==1?{'border-radius': 'unset'}:''"
+      [ngClass]="curr == i?'currActive':''" *ngFor="let tab of tabList;let i = index"  class="tabName" style="">{{tab.name}}</div>
+  </div>
+  <div *ngIf="curr==0" class="wper-100">
+    <div class="flex align-middle align-center wper-100">
+      <form class="example-form" name="form" autocomplete="off" (ngSubmit)="companyInfo.form.valid && stepOneCheck(companyInfo)"
+        #companyInfo="ngForm" novalidate>
+        <div class="mt-25 imgProfile cursor" [ngStyle]="companyImg?{'padding':'0px 0px','width': '102px','background':'#ffffff'}:''">
+          <div *ngIf='companyImg' style="position: absolute;
+           left: 53.4%;
+            top: 157px;
+            border: 1px solid gray;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 13px;
+            background: black;
+            color: white;"
+            (click)="removeAdmin('companyImg')">X</div>
+          <div class="uploadBtn" (click)="onFileClick('company')">
+            <label title="upload file" for="file-input">
+              <img class="wmpx-25 cursor" *ngIf='!companyImg' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ic_camera_alt_48px.svg/2000px-Ic_camera_alt_48px.svg.png">
+              <div *ngIf='!companyImg' class="pt-40 cursor">Company Logo</div>
+            </label>
+            <img style="width: 102px;" *ngIf='companyImg' [src]="companyImg">
+            <input #fileClick id="fileClick" type='file' (change)="onSelectFile($event)">
+          </div>
+        </div>
+        <div class="pl-20 wper-100">
+          <!-- <form class="example-form"> -->
+          <div class="flex pt-15 pb-10 wper-100">
+            <div class="pr-80 wper-25">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Company Name" name="companyName" [(ngModel)]="company.companyName"
+                  #companyName="ngModel" required>
+              </mat-form-field>
+            </div>
+            <div class="pr-40 wper-25">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Tranding Name" name="trandingName" [(ngModel)]="company.trandingName"
+                  #trandingName="ngModel" required>
+              </mat-form-field>
+            </div>
+            <div class="pr-40 wper-25">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Business Registration Number" name="regNumber" [(ngModel)]="company.regNumber"
+                  #regNumber="ngModel" required>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex pt-20 pb-15 wper-100">
+            <div class="pr-40 wper-50">
+              <mat-form-field class="wper-100 example-full-width">
+                <input matInput placeholder="Company Address" name="compAddress" [(ngModel)]="company.compAddress"
+                  #compAddress="ngModel" required>
+              </mat-form-field>
+            </div>
+            <div class="pr-60 wper-50">
+              <mat-form-field class="wper-100 example-full-width">
+                <input matInput placeholder="Email" name="email" [(ngModel)]="company.email" #regNumber="ngModel"
+                  required>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class=" flex align-center">
+          <!-- //count=1;curr=1; -->
+          <button class="nextBtn" type="submit" class="wmpx-200 cursor nextBtn" (click)="count=1;curr=1;stepOneCheck()"
+            [disabled]="companyInfo.invalid">
+            <span>Next</span>
+            <!-- <span><img src="http://devcmsapi.bluwayle.com.au/swaggerui/images/throbber.gif"></span> -->
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="curr==1" class="wper-100">
+    <div class="flex align-middle align-center wper-100 ">
+      <form class="example-form" name="form" autocomplete="off" (ngSubmit)="adminInfo.form.valid && stepTwoCheck(adminInfo)"
+        #adminInfo="ngForm" novalidate>
+        <div title="upload file" class="mt-25 imgProfile cursor" [ngStyle]="adminImg?{'padding':'0px 0px','width': '102px','background':'#ffffff'}:''">
+          <div *ngIf='adminImg' style="position: absolute;
+             left: 53.4%;
+            top: 157px;
+            border: 1px solid gray;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 13px;
+            background: black;
+            color: white;"
+            (click)="removeAdmin('adminImg')">X</div>
+          <div class="uploadBtn" (click)="onFileClick()">
+            <label title="upload file" for="file-input">
+              <img class="wmpx-25 cursor" *ngIf='!adminImg' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ic_camera_alt_48px.svg/2000px-Ic_camera_alt_48px.svg.png">
+              <div *ngIf='!adminImg' class="pt-40 cursor">Admin Profile Picture</div>
+            </label>
+            <img style="width: 102px;" *ngIf='adminImg' [src]="adminImg" class="wmpx-102">
+            <input #fileClick id="fileClick" type='file' (change)="onSelectFile($event)">
+          </div>
+        </div>
+        <div class="pl-20 wper-100">
+          <!-- <form class="example-form"> -->
+          <div class="flex pt-30 pb-15 wper-100 ">
+            <div class="pr-40 wper-100 ">
+              <mat-form-field class="example-full-width wmpx-250">
+                <input matInput placeholder="Name" name="adminName" [(ngModel)]="admin.name" #adminName="ngModel"
+                  required>
+              </mat-form-field>
+            </div>
+            <div class="pr-40 wper-100">
+              <mat-form-field class="example-full-width wmpx-250">
+                <input matInput placeholder="Email" name="email" [(ngModel)]="admin.email" #email="ngModel" pattern="^\w+([\.+-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                  required>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="flex pt-30 pb-15 wper-100 ">
+            <div class="pr-40 wper-50">
+              <mat-form-field class="example-full-width wmpx-250">
+                <input matInput placeholder="Contact Number" name="contactNumber" [(ngModel)]="admin.contactNumber"
+                  #contactNumber="ngModel" minlength='10' maxlength='10' [OnlyNumber]='true' required>
+              </mat-form-field>
+            </div>
+            <!-- <div class="pr-40 wper-50">
+              <mat-form-field class="example-full-width wmpx-250">
+                <mat-select placeholder="Category" name="machineType" [(ngModel)]="admin.name">
+                  <mat-option *ngFor="let category of categories" [value]="category.name">
+                    {{category.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+          </div>
+        </div>
+        <div class="pt-10 flex align-center">
+          <button class="backBtn mr-20" (click)="count=0;curr=0">Back</button>
+          <button type="submit" class="wmpx-200 cursor nextBtn" [disabled]="adminInfo.invalid" (click)="count=2;curr=2;stepTwoCheck()">Next</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="curr==2" class="wper-100 ">
+    <div class="noData flex align-middle align-center wper-100" *ngIf="adminLists.length == 0">No data found</div>
+    <div class="flex align-middle align-center wper-100 ot-scroll">
+      <form class="example-form" name="form" autocomplete="off" (ngSubmit)="adminListInfo.form.valid && stepThreeCheck(adminListInfo)"
+        #adminListInfo="ngForm" novalidate>
+        <div *ngFor="let adminlist of adminLists;let i = index" class="pl-20 wper-100">
+          <!-- <div> -->
+          <div class="flex pt-20 pb-5 wper-100">
+            <!-- <div class="pr-80 wper-25">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Emp Number" name="empNumber" [(ngModel)]="adminlist.empNumber" #empNumber="ngModel"
+                  required>
+              </mat-form-field>
+            </div> -->
+            <div class="pr-80 wper-35">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Name" name="Name" [(ngModel)]="adminlist.name"  #name="ngModel" required>
+              </mat-form-field>
+            </div>
+            <div class="pr-40 wper-35">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email" name="email" [(ngModel)]="adminlist.email" #email="ngModel" pattern="^\w+([\.+-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                  required>
+              </mat-form-field>
+            </div>
+            <div class="pr-40 wper-35  flex align-center align-middle">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Contact Number" name="contactNumber" [(ngModel)]="adminlist.contactNumber"
+                  #contactNumber="ngModel" minlength='10' maxlength='10' [OnlyNumber]='true' required>
+              </mat-form-field>
+              <span class="flex align-center align-middle ml-20 cursor delAdmin" (click)="deleteAdmin(i)">X</span>
+            </div>
+          </div>
+        </div>
+        <div class="pt-10 flex align-center" *ngIf="adminLists.length > 0">
+          <button class="wmpx-200 mr-20 cursor backBtn" (click)="count=1;curr=1;stepThreeCheck()">Back</button>
+          <button type="submit" class="wmpx-200 cursor completeSetup" [disabled]="adminListInfo.invalid">Complete Setup</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

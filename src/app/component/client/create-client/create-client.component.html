@@ -1,0 +1,96 @@
+<div>  
+  <div class="empAddTitle borderBtm pl-35 pt-25 pb-20">{{orgId?'EDIT':'ADD'}} COMPANY</div>
+  <form class="example-form" name="form" autocomplete="off" (ngSubmit)="clientInfo.form.valid && saveEmployee(clientInfo)"
+    #clientInfo="ngForm" novalidate>
+    <div class="flex align-center">
+      <div class="wper-100">
+        <div class="pl-33">
+          <div class="wper-100 flex pt-20">
+            <div class="wper-17">
+              <div class="cursor hpx-146" [ngStyle]="companyImg?{'padding':'0px 0px','width': '102px','background':'#ffffff'}:''">
+                <div id="overlay" (click)="overLay=false"  [ngStyle]="overLay==true?{'display':'block'}:{'display':'none'}">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="16 / 9"
+                    [resizeToWidth]="128" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                    (loadImageFailed)="loadImageFailed()">
+                  </image-cropper>
+                  </div>
+                <div class="uploadBtn uploadCompany" [ngStyle]="croppedImage || inputData?.value?.image ?{'border': 'none','background':'#ffffff'}:''"
+                  (click)="onFileClick('company');overLay=true">
+                  <label title="upload file" for="file-input">
+                    <img class="wmpx-25 cursor" style="opacity: 0.3" *ngIf='!croppedImage'  [ngStyle]="inputData?.value?.image?{'display': 'none' }:''" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ic_camera_alt_48px.svg/2000px-Ic_camera_alt_48px.svg.png">
+                    <div *ngIf='!croppedImage' class="pt-21 cursor clientImgPlaceholder" [ngStyle]="inputData?.value?.image?{'display': 'none' }:''">Company
+                      Logo</div>
+                  </label>
+                  <!-- <img   src="{{cdnUrl}}cdn/files/{{inputData?.value?.image}}?authorization={{authToken}}" > -->
+                  <img   [src]="croppedImage" [ngStyle]="croppedImage?{'padding-left':'0px'}:''"/>
+                  <input #fileClick id="fileClick" type="file" name="image" [(ngModel)]="client.image" (change)="fileChangeEvent($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="wper-80 flex flex-wrap">
+              <div class="pr-40 wper-20">
+                <mat-form-field class="wmpx-156 example-full-width">
+                  <input matInput placeholder="Company Name" name="organisationName" [(ngModel)]="client.organisationName"
+                    #CompanyName="ngModel" required>
+                </mat-form-field>
+              </div>
+              <div class="pr-40 wper-20">
+                <mat-form-field class="wmpx-156 example-full-width">
+                  <input matInput placeholder="Mail ID" name="mail" [(ngModel)]="client.mail" #email="ngModel" pattern="^\w+([\.+-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                    required>
+                </mat-form-field>
+              </div>
+              <div class="pr-40 wper-20">
+                <mat-form-field class="wmpx-156 example-full-width">
+                  <input matInput placeholder="Trading Name" name="tradingName" [(ngModel)]="client.tradingName"
+                    #trandingName="ngModel" required>
+                </mat-form-field>
+              </div>
+              <div class="pr-40 wper-20">
+                <mat-form-field class="wmpx-156 example-full-width">
+                  <input matInput placeholder="Registration No" name="businessId" [(ngModel)]="client.businessId"
+                    #businessId="ngModel" required>
+                </mat-form-field>
+              </div>
+              <div class="pr-40 wper-20">
+                <mat-form-field class="wmpx-156 example-full-width">
+                  <input matInput placeholder="Contact  Name" name="name" [(ngModel)]="client.name" #name="ngModel"
+                    required>
+                </mat-form-field>
+              </div>
+              <div class="pr-40 wper-20">
+                <mat-form-field class="wmpx-156 example-full-width">
+                  <input matInput placeholder="Contact Number" name="mobileNo" [(ngModel)]="client.mobileNo" maxlength="10"
+                    [OnlyNumber]="true" #mobileNo="ngModel" required>
+                </mat-form-field>
+              </div>
+              <div class="pr-40 wper-20">
+                <mat-form-field class="wmpx-156 example-full-width">
+                  <input matInput placeholder="Location" name="location" [(ngModel)]="client.location" #compAddress="ngModel"
+                    required>
+                </mat-form-field>
+              </div>
+              <div class="pr-40 wper-20">
+                <div class="pb-8 inputLabel">Status</div>
+                <mat-radio-group class="flex" name="status" [(ngModel)]="client.status" #radioGroup="matRadioGroup">
+                  <mat-radio-button class="pr-8 clientStatus" value="active">Active</mat-radio-button>
+                  <mat-radio-button class="pr-8 clientStatus" value="inactive">Inactive</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex  borderTop mt-45">
+      <div class="wper-50 flex  cursor align-center align-middle borderLeft hpx-67 cancelBtn" (click)="dialogRef.close()">Cancel</div>
+      <div *ngIf="!orgId" class="wper-50 flex  align-center align-middle hpx-67 cancelBtn">
+        <button type="submit" class="addEmp wper-100 cursor hpx-67" name="save" [disabled]="clientInfo.invalid">Save</button>
+      </div>
+      <div *ngIf="orgId" class="wper-50 flex  align-center align-middle hpx-67 cancelBtn">
+        <button type="submit" class="addEmp wper-100 cursor hpx-67" name="save" [disabled]="clientInfo.invalid">Update
+          Company</button>
+      </div>
+    </div>
+  </form>
+</div>
